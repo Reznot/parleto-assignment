@@ -1,22 +1,13 @@
 <template>
   <v-app>
-    <v-app-bar app color="primary" dark>
+    <v-app-bar app elevate-on-scroll flat>
       <div class="d-flex align-center">
         <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
+          alt="Parleto Logo"
+          class="mt-1 hidden-sm-and-down"
           contain
           min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          :src="parletoLogo"
           width="100"
         />
       </div>
@@ -49,8 +40,10 @@ export default {
     HelloWorld
   },
 
-  data: () => ({
-    //
-  })
+  data() {
+    return {
+      parletoLogo: require("../src/assets/parleto_logo.png")
+    };
+  }
 };
 </script>

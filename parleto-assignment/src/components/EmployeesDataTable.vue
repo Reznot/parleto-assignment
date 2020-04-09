@@ -107,17 +107,21 @@ export default {
       this.employees.forEach(employee => {
         let idx = tableData.findIndex(el => el.dzial === employee.dzial);
         if (idx !== -1) {
-          tableData[idx].sum =
-            parseFloat(tableData[idx].sum) +
-            parseFloat(employee.wynagrodzenieKwota);
+          tableData[idx].sum += parseFloat(employee.wynagrodzenieKwota);
         } else {
           tableData.push({
             dzial: employee.dzial,
-            sum: employee.wynagrodzenieKwota
+            sum: parseFloat(employee.wynagrodzenieKwota)
           });
         }
       });
 
+      let tmpSum = 0;
+      tableData.forEach(el => { //! Zrobic w promise
+        tmpSum += el.sum;
+      });
+      this.totalSum = tmpSum;
+      console.log(this.totalSum)
       return tableData;
     }
   },

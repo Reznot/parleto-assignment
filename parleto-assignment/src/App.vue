@@ -1,43 +1,38 @@
+/* eslint-disable vue/no-unused-components */
 <template>
   <v-app>
-    <v-app-bar app elevate-on-scroll flat>
+    <v-app-bar class="d-flex justify-start" app elevate-on-scroll color="#FFF">
       <div class="d-flex align-center">
-        <v-img
-          alt="Parleto Logo"
-          class="mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          :src="parletoLogo"
-          width="100"
-        />
+        <v-btn href="https://www.parleto.io" target="_blank" text>
+          <v-img
+            alt="Parleto Logo"
+            class="mt-1 hidden-sm-and-down"
+            contain
+            min-width="100"
+            :src="parletoLogo"
+            width="150"
+          />
+        </v-btn>
       </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
     </v-app-bar>
 
     <v-content>
-      <HelloWorld />
+      <EmployeesDataTable />
+      <!-- <HelloWorld /> -->
     </v-content>
   </v-app>
 </template>
 
 <script>
 import HelloWorld from "./components/HelloWorld";
+import EmployeesDataTable from "./components/EmployeesDataTable.vue";
 
 export default {
   name: "App",
 
   components: {
-    HelloWorld
+    HelloWorld,
+    EmployeesDataTable
   },
 
   data() {

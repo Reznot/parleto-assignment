@@ -1,0 +1,11 @@
+{
+  "employees": {
+    "headers": {
+      "name": "Imie",
+      "surname": "Nazwisko",
+      "department": "Dział",
+      "salary": "Wynagrodzenie",
+      "currency": "Waluta"
+    }
+  }
+}

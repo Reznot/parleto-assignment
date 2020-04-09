@@ -4,12 +4,14 @@
       Filters
     </v-row>
 
+    <!-- Employees Table -->
     <v-row justify="center">
       <v-data-table
         :headers="headers"
         :items="employees"
         :items-per-page="5"
         hide-default-footer
+        :loading="!isDataReady"
         class="elevation-1"
       >
         <template v-slot:body="{ items }">
@@ -24,6 +26,18 @@
             </tr>
           </tbody>
         </template>
+      </v-data-table>
+    </v-row>
+
+    <!-- Sum of salaries by department -->
+    <v-row justify="center">
+      <v-data-table
+        :headers="salarySumTableHeaders"
+        :items="getSalarySumByDepartment()"
+        :items-per-page="5"
+        hide-default-footer
+        class="elevation-1 mt-2"
+      >
       </v-data-table>
     </v-row>
   </v-container>
@@ -64,17 +78,52 @@ export default {
           value: "wynagrodzenieKwota"
         }
       ],
-      employees: []
+      salarySumTableHeaders: [
+        {
+          text: plDict.salarySumTable.headers.department,
+          align: "left",
+          sortable: true,
+          value: "dzial"
+        },
+        {
+          text: plDict.salarySumTable.headers.sum,
+          align: "center",
+          sortable: true,
+          value: "sum"
+        }
+      ],
+      employees: [],
+      totalSum: null,
+      isDataReady: false
     };
   },
   methods: {
     getEmployees() {
       return this.$store.getters.getEmployees;
+    },
+    getSalarySumByDepartment() {
+      let tableData = [];
+
+      this.employees.forEach(employee => {
+        let idx = tableData.findIndex(el => el.dzial === employee.dzial);
+        if (idx !== -1) {
+          tableData[idx].sum =
+            parseFloat(tableData[idx].sum) +
+            parseFloat(employee.wynagrodzenieKwota, 10);
+        } else {
+          tableData.push({
+            dzial: employee.dzial,
+            sum: employee.wynagrodzenieKwota
+          });
+        }
+      });
+
+      return tableData;
     }
   },
   mounted() {
     this.employees = this.getEmployees();
-    console.log(this.employees);
+    this.isDataReady = true;
   }
 };
 </script>

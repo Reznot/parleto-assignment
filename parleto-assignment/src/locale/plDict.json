@@ -7,5 +7,12 @@
       "salary": "Wynagrodzenie",
       "currency": "Waluta"
     }
+  },
+  "salarySumTable": {
+    "headers": {
+      "department":"Dział",
+      "sum": "Suma",
+      "totalSum": "Suma całkowita"
+    }
   }
 }

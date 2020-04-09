@@ -109,7 +109,7 @@ export default {
         if (idx !== -1) {
           tableData[idx].sum =
             parseFloat(tableData[idx].sum) +
-            parseFloat(employee.wynagrodzenieKwota, 10);
+            parseFloat(employee.wynagrodzenieKwota);
         } else {
           tableData.push({
             dzial: employee.dzial,

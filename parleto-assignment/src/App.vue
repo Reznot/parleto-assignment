@@ -18,20 +18,17 @@
 
     <v-content>
       <EmployeesDataTable />
-      <!-- <HelloWorld /> -->
     </v-content>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from "./components/HelloWorld";
 import EmployeesDataTable from "./components/EmployeesDataTable.vue";
 
 export default {
   name: "App",
 
   components: {
-    HelloWorld,
     EmployeesDataTable
   },
 

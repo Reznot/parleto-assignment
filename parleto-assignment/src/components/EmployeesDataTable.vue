@@ -5,11 +5,11 @@
     </v-row>
 
     <!-- Employees Table -->
-    <v-row justify="center">
+    <v-row v-if="isDataReady" justify="center">
       <v-data-table
+        v-model="employees"
         :headers="headers"
         :items="employees"
-        :items-per-page="5"
         hide-default-footer
         :loading="!isDataReady"
         class="elevation-1"
@@ -72,6 +72,7 @@
       v-if="vd_addEmployee"
       v-model="vd_addEmployee"
       :departments="departments"
+      @update="update()"
     />
   </v-container>
 </template>
@@ -171,7 +172,10 @@ export default {
       this.employees.forEach(el => {
         tmpDepartments.push(el.dzial);
       });
-      return new Set(tmpDepartments);
+      return [...new Set(tmpDepartments)];
+    },
+    update() {
+      this.employees = this.getEmployees();
     }
   },
   mounted() {

@@ -43,12 +43,20 @@ export default new Vuex.Store({
       }
     ]
   },
-  mutations: {},
+  mutations: {
+    ADD_EMPLOYEE(state, employee) {
+      state.employees.push(employee);
+    }
+  },
   getters: {
     getEmployees(state) {
       return state.employees;
     }
   },
-  actions: {},
+  actions: {
+    addEmployee(context, employee) {
+      context.commit("ADD_EMPLOYEE", employee);
+    }
+  },
   modules: {}
 });

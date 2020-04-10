@@ -13,14 +13,14 @@
                 <v-text-field
                   v-model="newEmployee.imie"
                   :rules="[rules.required]"
-                  placeholder="Imie"
+                  label="Imie"
                   required
                 />
               </v-col>
               <v-col cols="4">
                 <v-text-field
                   v-model="newEmployee.nazwisko"
-                  placeholder="Nazwisko"
+                  label="Nazwisko"
                   :rules="[rules.required]"
                   required
                 />
@@ -30,7 +30,7 @@
                   v-model="newEmployee.dzial"
                   :items="departments"
                   :rules="[rules.required]"
-                  placeholder="Dział"
+                  label="Dział"
                   required
                 ></v-select>
               </v-col>
@@ -38,7 +38,7 @@
                 <v-text-field
                   v-model="newEmployee.wynagrodzenieKwota"
                   :rules="[rules.required]"
-                  placeholder="Wynagrodzenie"
+                  label="Wynagrodzenie"
                   type="number"
                   required
                 />
@@ -48,7 +48,7 @@
                   v-model="newEmployee.wynagrodzenieWaluta"
                   :items="currencies"
                   :rules="[rules.required]"
-                  placeholder="Waluta"
+                  label="Waluta"
                   required
                 ></v-select>
               </v-col>
@@ -85,11 +85,6 @@ export default {
         required: value => !!value || "Pole obowiązkowe!"
       }
     };
-  },
-  computed: {
-    dialog() {
-      return this.value;
-    }
   },
   methods: {
     closeDialog() {

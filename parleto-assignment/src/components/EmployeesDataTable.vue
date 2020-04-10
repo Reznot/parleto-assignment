@@ -1,52 +1,66 @@
 <template>
   <v-container>
-    <v-row justify="center">
-      Filters
-    </v-row>
-
     <!-- Employees Table -->
     <v-row v-if="isDataReady" justify="center">
-      <v-data-table
-        v-model="employees"
-        :headers="headers"
-        :items="employees"
-        hide-default-footer
-        :loading="!isDataReady"
-        class="elevation-1"
-      >
-        <template v-slot:top>
-          <v-row class="d-flex justify-end">
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  class="mr-5 mt-2"
-                  small
-                  icon
-                  color="#4be7d4"
-                  v-on="on"
-                  @click="vd_addEmployee = !vd_addEmployee"
-                >
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </template>
-              <span>Dodaj pracownika</span>
-            </v-tooltip>
-          </v-row>
-        </template>
+      <v-col cols="10">
+        <v-data-table
+          v-model="employees"
+          :headers="headers"
+          :items="employees"
+          hide-default-footer
+          :loading="!isDataReady"
+          class="elevation-1"
+        >
+          <template v-slot:top>
+            <v-row class="d-flex justify-space-between">
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mx-5 mt-2"
+                    small
+                    icon
+                    color="#4be7d4"
+                    v-on="on"
+                    @click="vd_filterEmployees = !vd_filterEmployees"
+                  >
+                    <v-icon>mdi-filter</v-icon>
+                  </v-btn>
+                </template>
+                <span>Filtruj</span>
+              </v-tooltip>
 
-        <template v-slot:body="{ items }">
-          <tbody>
-            <tr v-for="(item, index) in items" :key="index">
-              <td>{{ item.imie }}</td>
-              <td>{{ item.nazwisko }}</td>
-              <td>{{ item.dzial }}</td>
-              <td class="text-center">
-                {{ item.wynagrodzenieKwota }} {{ item.wynagrodzenieWaluta }}
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-data-table>
+              <v-tooltip top>
+                <template v-slot:activator="{ on }">
+                  <v-btn
+                    class="mr-5 mt-2"
+                    small
+                    icon
+                    color="#4be7d4"
+                    v-on="on"
+                    @click="vd_addEmployee = !vd_addEmployee"
+                  >
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
+                </template>
+                <span>Dodaj pracownika</span>
+              </v-tooltip>
+            </v-row>
+          </template>
+
+          <template v-slot:body="{ items }">
+            <tbody>
+              <tr v-for="(item, index) in items" :key="index">
+                <td>{{ item.imie }}</td>
+                <td>{{ item.nazwisko }}</td>
+                <td>{{ item.dzial }}</td>
+                <td class="text-center">
+                  {{ item.wynagrodzenieKwota }} {{ item.wynagrodzenieWaluta }}
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-data-table>
+      </v-col>
     </v-row>
 
     <!-- Sum of salaries by department -->
@@ -74,15 +88,22 @@
       :departments="departments"
       @update="update()"
     />
+    <FilterEmployees
+      v-if="vd_filterEmployees"
+      v-model="vd_filterEmployees"
+      :departments="departments"
+      :employees="employees"
+    />
   </v-container>
 </template>
 
 <script>
 import plDict from "../locale/plDict.json";
 import AddEmployeeDialog from "./AddEmployeeDialog.vue";
+import FilterEmployees from "./FilterEmployees.vue";
 
 export default {
-  components: { AddEmployeeDialog },
+  components: { AddEmployeeDialog, FilterEmployees },
   data() {
     return {
       component: {
@@ -133,7 +154,8 @@ export default {
       totalSum: null,
       isDataReady: false,
 
-      vd_addEmployee: false
+      vd_addEmployee: false,
+      vd_filterEmployees: false
     };
   },
   computed: {

@@ -30,7 +30,7 @@
     </v-row>
 
     <!-- Sum of salaries by department -->
-    <v-row justify="center">
+    <v-row v-if="isDataReady" justify="center">
       <v-data-table
         :headers="salarySumTableHeaders"
         :items="getSalarySumByDepartment()"
@@ -38,6 +38,13 @@
         hide-default-footer
         class="elevation-1 mt-2"
       >
+        <template v-slot:footer>
+          <v-divider />
+          <tr class="footerRow">
+            <th>{{ totalSumHeader }}</th>
+            <th>{{ totalSum }}</th>
+          </tr>
+        </template>
       </v-data-table>
     </v-row>
   </v-container>
@@ -97,6 +104,11 @@ export default {
       isDataReady: false
     };
   },
+  computed: {
+    totalSumHeader() {
+      return plDict.salarySumTable.headers.totalSum;
+    }
+  },
   methods: {
     getEmployees() {
       return this.$store.getters.getEmployees;
@@ -117,11 +129,12 @@ export default {
       });
 
       let tmpSum = 0;
-      tableData.forEach(el => { //! Zrobic w promise
+      tableData.forEach(el => {
+        //! Zrobic w promise
         tmpSum += el.sum;
       });
       this.totalSum = tmpSum;
-      console.log(this.totalSum)
+      console.log(this.totalSum);
       return tableData;
     }
   },
@@ -131,3 +144,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.footerRow {
+  vertical-align: middle !important;
+}
+</style>

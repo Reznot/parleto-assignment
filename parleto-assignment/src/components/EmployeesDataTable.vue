@@ -14,6 +14,26 @@
         :loading="!isDataReady"
         class="elevation-1"
       >
+        <template v-slot:top>
+          <v-row class="d-flex justify-end">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  class="mr-5 mt-2"
+                  small
+                  icon
+                  color="#4be7d4"
+                  v-on="on"
+                  @click="vd_addEmployee = !vd_addEmployee"
+                >
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </template>
+              <span>Dodaj pracownika</span>
+            </v-tooltip>
+          </v-row>
+        </template>
+
         <template v-slot:body="{ items }">
           <tbody>
             <tr v-for="(item, index) in items" :key="index">
@@ -47,13 +67,21 @@
         </template>
       </v-data-table>
     </v-row>
+
+    <AddEmployeeDialog
+      v-if="vd_addEmployee"
+      v-model="vd_addEmployee"
+      :departments="departments"
+    />
   </v-container>
 </template>
 
 <script>
 import plDict from "../locale/plDict.json";
+import AddEmployeeDialog from "./AddEmployeeDialog.vue";
 
 export default {
+  components: { AddEmployeeDialog },
   data() {
     return {
       component: {
@@ -100,8 +128,11 @@ export default {
         }
       ],
       employees: [],
+      departments: [],
       totalSum: null,
-      isDataReady: false
+      isDataReady: false,
+
+      vd_addEmployee: false
     };
   },
   computed: {
@@ -130,16 +161,22 @@ export default {
 
       let tmpSum = 0;
       tableData.forEach(el => {
-        //! Zrobic w promise
         tmpSum += el.sum;
       });
       this.totalSum = tmpSum;
-      console.log(this.totalSum);
       return tableData;
+    },
+    getDepartments() {
+      let tmpDepartments = [];
+      this.employees.forEach(el => {
+        tmpDepartments.push(el.dzial);
+      });
+      return new Set(tmpDepartments);
     }
   },
   mounted() {
     this.employees = this.getEmployees();
+    this.departments = this.getDepartments();
     this.isDataReady = true;
   }
 };

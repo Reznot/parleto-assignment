@@ -14,7 +14,7 @@
         <v-container>
           <v-row>
             <v-col cols="6">
-              <v-text-field v-model="filters.person" label="Osoba" />
+              <v-text-field v-model="filters.person" label="Osoba" clearable />
             </v-col>
             <v-col cols="6">
               <v-select
@@ -71,7 +71,12 @@ export default {
       component: {
         name: "FilterEmployees"
       },
-      filters: {},
+      filters: {
+        person: "",
+        department: [],
+        amountFrom: null,
+        amountTo: null
+      },
       amounts: [1000, 2000, 3000, 4000, 5000],
       snackbar: false
     };
@@ -81,10 +86,10 @@ export default {
       this.$emit("input", false);
     },
     filter() {
-      console.log("filter");
+      this.$emit("filter", this.filters);
     },
     clearFilter() {
-      console.log("clear fitlers");
+      this.$emit("clearFilters", true);
     }
   },
   watch: {

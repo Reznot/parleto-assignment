@@ -93,6 +93,8 @@
       v-model="vd_filterEmployees"
       :departments="departments"
       :employees="employees"
+      @filter="filterData"
+      @clearFilters="employees = getEmployees()"
     />
   </v-container>
 </template>
@@ -198,6 +200,17 @@ export default {
     },
     update() {
       this.employees = this.getEmployees();
+    },
+    filterData(value) {
+      console.log(value);
+      let empToFilter = this.getEmployees()
+      const filtered = empToFilter.filter(el => {
+        return (el.imie.toLowerCase().includes(value.person.toLowerCase()) || el.nazwisko.toLowerCase().includes(value.person.toLowerCase())) 
+        && (value.department.length ? value.department.includes(el.dzial) : true) 
+        && (value.amountFrom ? el.wynagrodzenieKwota >= value.amountFrom : true)
+        && (value.amountTo ? el.wynagrodzenieKwota <= value.amountTo : true);
+      })
+      this.employees = filtered;
     }
   },
   mounted() {

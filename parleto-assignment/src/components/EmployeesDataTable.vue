@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <!-- Employees Table -->
-    <v-row v-if="isDataReady" justify="center">
+    <v-row justify="center">
       <v-col cols="10">
         <FilterEmployees
           v-if="vd_filterEmployees"
@@ -12,11 +12,11 @@
           @clearFilters="employees = getEmployees()"
         />
         <v-data-table
+          v-if="isDataReady"
           v-model="employees"
           :headers="headers"
           :items="employees"
           hide-default-footer
-          :loading="!isDataReady"
           class="elevation-1"
         >
           <template v-slot:top>
@@ -201,9 +201,9 @@ export default {
     update() {
       this.employees = this.getEmployees();
     },
-    filterData(value) {
-      console.log(value);
-      let empToFilter = this.getEmployees()
+    async filterData(value) {
+      let empToFilter = await this.getEmployees();
+      this.isDataReady = false;
       const filtered = empToFilter.filter(el => {
         return (el.imie.toLowerCase().includes(value.person.toLowerCase()) || el.nazwisko.toLowerCase().includes(value.person.toLowerCase())) 
         && (value.department.length ? value.department.includes(el.dzial) : true) 
@@ -211,6 +211,9 @@ export default {
         && (value.amountTo ? el.wynagrodzenieKwota <= value.amountTo : true);
       })
       this.employees = filtered;
+      setTimeout(() => {
+        this.isDataReady = true;
+      }, 1);
     }
   },
   mounted() {

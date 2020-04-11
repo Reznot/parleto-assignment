@@ -83,6 +83,12 @@ export default {
       this.$emit("filter", this.filters);
     },
     clearFilter() {
+      this.filters = {
+        person: "",
+        department: [],
+        amountFrom: null,
+        amountTo: null
+      };
       this.$emit("clearFilters", true);
     }
   },
@@ -90,14 +96,14 @@ export default {
     "filters.amountFrom": function() {
       if (this.filters.amountFrom && this.filters.amountTo) {
         if (this.filters.amountFrom > this.filters.amountTo) {
-          this.filters.amountTo = "";
+          this.filters.amountTo = null;
         }
       }
     },
     "filters.amountTo": function() {
       if (this.filters.amountFrom && this.filters.amountTo) {
         if (this.filters.amountFrom > this.filters.amountTo) {
-          this.filters.amountFrom = "";
+          this.filters.amountFrom = null;
         }
       }
     },

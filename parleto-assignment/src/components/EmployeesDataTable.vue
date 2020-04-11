@@ -3,6 +3,14 @@
     <!-- Employees Table -->
     <v-row v-if="isDataReady" justify="center">
       <v-col cols="10">
+        <FilterEmployees
+          v-if="vd_filterEmployees"
+          v-model="vd_filterEmployees"
+          :departments="departments"
+          :employees="employees"
+          @filter="filterData"
+          @clearFilters="employees = getEmployees()"
+        />
         <v-data-table
           v-model="employees"
           :headers="headers"
@@ -87,14 +95,6 @@
       v-model="vd_addEmployee"
       :departments="departments"
       @update="update()"
-    />
-    <FilterEmployees
-      v-if="vd_filterEmployees"
-      v-model="vd_filterEmployees"
-      :departments="departments"
-      :employees="employees"
-      @filter="filterData"
-      @clearFilters="employees = getEmployees()"
     />
   </v-container>
 </template>
